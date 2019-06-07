@@ -1,0 +1,337 @@
+<script src="https://kit.fontawesome.com/78625ea084.js"></script>
+
+<HTML>
+    <head>
+        <title>Student Loan Calculator</title> 
+    </head>
+    <body>
+        <section class="calculator-container">
+            <label class="calculator-header">STUDENT LOAN CALCULATOR</label>
+            <section id="generalInfo" class="form">
+                <label class="form-header">GENERAL INFORMATION</label>
+
+                <section class="input-section">
+                    <label for="toLoanBalance" class="input-label">
+                        TOTAL STUDENT LOAN BALANCE ($)
+                    </label>
+                    <input id="totalLoanBalance" class="input-field invalid" placeholder="Enter your total student loan balance"/>
+                    <p id="totalLoanBalanceErrorMsg" class="errorMsg"></p>
+                </section>
+
+                <section class="input-section">
+                    <label for="averageInterestRate" class="input-label">
+                        AVERAGE INTEREST RATE (%)
+                    </label>
+                    <input id="averageInterestRate" class="input-field invalid" placeholder="Enter the average interest rate of your student loans"/>
+                    <p id="averageInterestRateErrorMsg" class="errorMsg"></p>
+                </section>
+
+                <section class="input-section">
+                    <label for="loanPaymentStartYear" class="input-label">
+                        YEAR LOAN PAYMENTS BEGAN
+                    </label>
+                    <input id="loanPaymentStartYear" class="input-field invalid" placeholder="Enter the year you began loan payments"/>
+                    <p id="loanPaymentStartYearErrorMsg" class="errorMsg"></p>
+                </section>
+
+                <section class="input-section">
+                    <label for="nonProfitOrGov" class="input-label">
+                       EMPLOYED BY NON-PROFIT OR GOVERNMENT
+                    </label>
+                    <section class="radio-btn-container">
+                        <i id="nonProfitOrGovYes" class="far fa-circle check-box nonProfitOrGov" data-text="true" name="nonProfitOrGov"></i>
+                        <label class="radio-btn">YES</label>
+                        <i id="nonProfitOrGovNo" class="fa fa-check-circle check-box nonProfitOrGov" data-text="false" name="nonProfitOrGov"></i> 
+                        <label class="radio-btn">NO</label>
+                    </section>
+                </section>
+
+                <section class="input-section">
+                    <label for="before10_1_2007" class="input-label">
+                        LOANS BORROWED BEFORE OCT 1, 2007
+                    </label>
+                    <section class="radio-btn-container">
+                        <i id="before10_1_2007Yes" class="far fa-circle check-box before10_1_2007" data-text="true" name="before10_1_2007"></i>
+                        <label class="radio-btn">YES</label>
+                        <i id="before10_1_2007No" class="fa fa-check-circle check-box before10_1_2007" data-text="false" name="before10_1_2007"></i> 
+                        <label class="radio-btn">NO</label>
+                    </section>
+                </section>
+
+                <button id="generalInfoNextBtn" class="next-btn btn-style" data-text="personalInfo" disabled=true>NEXT</button>
+            </section>
+
+            <section id="personalInfo" class="form hide">
+                <label class="form-header">PERSONAL INFORMATION</label>
+
+                <section class="input-section">
+                    <label for="currentFamilySize" class="input-label">
+                        CURRENT FAMILY SIZE
+                    </label>
+                    <input id="currentFamilySize" class="input-field invalid" placeholder="Enter the number of people in your family (including yourself and spouse)"/>
+                    <p id="currentFamilySizeErrorMsg" class="errorMsg"></p>
+                </section>
+
+                <section class="input-section">
+                    <label for="taxStatus" class="input-label">
+                        TAXING FILING STATUS WHEN MARRIED
+                    </label>
+                    <section class="radio-btn-container">
+                        <i id="taxStatusYes" class="fa fa-check-circle check-box taxStatus" data-text="true" name="taxStatus"></i>
+                        <label class="radio-btn">SINGLE</label>
+                        <i id="taxStatusNo" class="far fa-circle check-box taxStatus" data-text="false" name="taxStatus"></i> 
+                        <label class="radio-btn">JOINTLY</label>
+                    </section>
+                </section>
+
+                <section id="futureChildren">
+                    <label class="input-label">PLANNING ON HAVING CHILDREN IN THE FUTURE?</label>
+                    <section class="radio-btn-container">
+                        <i id="futureChildrenDisplayYes" class="far fa-circle check-box futureChildrenDisplay" data-text="true" name="futureChildrenDisplay" onclick="displayFutureChildren(true)"></i>
+                        <label class="radio-btn">YES</label>
+                        <i id="futureChildrenDisplayNo" class="fa fa-check-circle check-box futureChildrenDisplay" data-text="false" name="futureChildrenDisplay" onclick="displayFutureChildren(false)"></i> 
+                        <label class="radio-btn">NO</label>
+                    </section>
+
+                    <section id="futureChildrenInput" class="hide">
+                        <table class="future-children-table">
+                            <thead>
+                                <tr>
+                                    <th>Child</th>
+                                    <th>Birth Year</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="futureChildrenTable"></tbody>
+                        </table>
+                        <button id="addChildButton" class="secondary-btn">Add Child</button>
+                    </section>
+                </section>
+
+
+                <button id="personalInfoBackBtn" class="back-btn btn-style" data-text="generalInfo">BACK</button>
+                <button id="personalInfoNextBtn" class="next-btn btn-style" data-text="incomeInfo" disabled=true>NEXT</button>
+            </section>
+            
+            <section id="incomeInfo" class="form hide">
+                    <label class="form-header">INCOME INFORMATION</label>
+                    
+                    <table id="incomeTable">
+                        <thead id="incomeTableHead"></thead>
+                        <tbody id="incomeTableBody"></tbody>
+                    </table>
+
+                    <button id="incomeInfoBackBtn" class="back-btn btn-style" data-text="personalInfo">BACK</button>
+                    <button id="incomeInfoNextBtn" class="next-btn btn-style" data-text="incomeInfo" disabled=true>NEXT</button>
+            </section>
+
+        </section>
+    </body>
+</HTML>
+<script src="./student.js" type="text/javascript"></script>
+
+<style>
+    .calculator-container {
+        width: 60%;
+        margin: 50px auto;
+        padding-bottom: 100px;
+        font-family: 'Alegreya Sans', sans-serif;
+        font-weight: 400;
+        line-height: 32.5px;
+        -webkit-font-smoothing: antialiased;
+        font-size: 20px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+    }
+
+    .calculator-header {
+        font-size: 36px;
+        font-family: Lora, serif;
+        font-weight: 400;
+        display: block;
+        padding-top: 40px;
+        letter-spacing: -0.75px;
+        text-align: center
+    }
+
+    .form {
+        padding: 5% 10%;
+    }
+
+    .form-header {
+        font-size: 24px;
+        font-family: Lora, serif;
+        font-weight: 400;
+        display: block;
+        margin-bottom: 20px;
+        letter-spacing: -0.75px;
+    }
+
+    .input-section {
+        padding-bottom: 30px;
+    }
+
+    .input-label {
+        display: block;
+        font-size: 14px;
+    }
+
+    .input-field {
+        display: inline-block;
+        border: none;
+        border-bottom: 1px solid #9b9b9b;
+        line-height: 24px;
+        width: 100%;
+        outline: none;
+        font-size: 16px;
+        width: 100%;
+        color: #808080;
+        background-color: #f0f0f0;
+    }
+
+    .input-field[placeholder] {
+        font-size: 12px;
+    }
+
+    .radio-btn-container {
+        margin-left: 40px;
+    }
+
+    .radio-btn{
+        font-size: 14px;
+        display: inline-block;
+        width: 100px;
+    }
+
+    .btn-style {
+        display: block;
+        color: #f0f0f0;
+        background-color: rgb(225, 152, 73);
+        border: none;
+        border-radius: 5px;
+        padding: 15px 30px;
+        font-size: 16px;
+        margin-top: 50px;
+        outline: none;
+    }
+
+    .btn-style:disabled {
+        background-color:#9b9b9b;
+        cursor: not-allowed;
+    }
+
+    .next-btn {
+        float: right;
+    }
+
+    .back-btn {
+        float: left;
+    }
+
+    .secondary-btn {
+        background-color: #32748d;
+        border: none;
+        border-radius: 5px;
+        padding: 7.5px 15px;
+        font-size: 12px;
+        outline: none;
+        color: #fff;
+    }
+
+    .error {
+        border-bottom: 1px solid #e60000;
+        color: #e60000;
+    }
+
+    .errorMsg {
+        color: #e60000;
+        font-size: 12px;
+        line-height: 12px;
+        margin: 0;
+        padding-top: 5px;
+        font-style: italic;
+    }    
+
+    .hide {
+        display: none;
+    }
+
+    #futureChildrenInput {
+        text-align: center;
+    }
+
+    .future-children-table {
+        margin: auto;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        padding: 20px;
+    }
+
+    .future-children-table > thead > tr > th {
+        width: 125px;
+    }
+
+    .future-children-table > thead > tr > th:last-child {
+        width: 25px;
+    }
+
+    .future-children-table > tbody > tr {
+        height: 50px;
+    }
+
+    .future-children-table > tbody > tr > td {
+        text-align: center;
+    }
+
+    .future-children-table > tbody > tr > td > input {
+        text-align: center;
+    }
+
+    .remove-child-btn {
+        color: #e60000;
+    }
+
+    .check-box {
+        color: #32748d;
+    }
+
+    .income-headers {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    #incomeTable {
+        border-collapse: collapse;
+        margin: auto;
+    }
+
+    .income-table-row {
+        height: 50px;
+        text-align: center;
+    }
+
+    .income-table-row > td{
+        vertical-align: top;
+        width: 175px;
+        text-align: center;
+    }
+
+    .income-year {
+        text-align: center;
+    }
+
+    .input-income-year {
+        text-align: center;
+        width: 50%;
+    }
+
+    .input-salary-growth {
+        text-align: center;
+        width: 50%;
+    }
+
+    .input-income {
+        text-align: center;
+    }
+
+</style>
